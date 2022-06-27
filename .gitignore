@@ -111,4 +111,7 @@ Thumbs.db
 !/ios/xcode/*.xcodeproj/project.pbxproj
 /ios/xcode/native/
 /ios/IOSLauncher.app
-/ios/IOSLauncher.app.dSYM
+/ios/IOSLauncher.app
+.dSYM
+
+/compl
