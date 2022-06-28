@@ -2,7 +2,9 @@ package com.rafa.flappybird;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -26,6 +28,11 @@ public class jogo extends ApplicationAdapter {
 	private float posicaoCanoVertical = 0;
 	private float espacoEntreCanos;
 	private Random random;
+	private int pontos;
+	private boolean passouCano;
+
+	//Exibição de textos
+	BitmapFont textoPontuacao;
 
 	@Override
 	public void create () {
@@ -36,7 +43,17 @@ public class jogo extends ApplicationAdapter {
 	@Override
 	public void render () {
 		verificarEstadoJogo();
+		validarPontos();
 		desenharTexturas();
+	}
+
+	private void validarPontos() {
+		if (posicaoCanoHorizontal < 50-passaros[0].getWidth()){//Passou da posição do passaro
+			if (!passouCano){
+				pontos++;
+				passouCano = true;
+			}
+		}
 	}
 
 	private void verificarEstadoJogo(){
@@ -46,7 +63,8 @@ public class jogo extends ApplicationAdapter {
 
 		if (posicaoCanoHorizontal < -canoAcima.getWidth()){
 			posicaoCanoHorizontal = larguraDispositivo;
-			posicaoCanoVertical = random.nextInt(800) -400;
+			posicaoCanoVertical = random.nextInt(400) -200;
+			passouCano = false;
 		}
 
 		/* Aplica evento de toque na tela*/
@@ -73,9 +91,10 @@ public class jogo extends ApplicationAdapter {
 		batch.begin();
 
 		batch.draw(fundo,0,0,larguraDispositivo,alturaDispositivo);
-		batch.draw(passaros[ (int) variacao], 30,posicaoInicialVerticalPassaro);
+		batch.draw(passaros[ (int) variacao], 50,posicaoInicialVerticalPassaro);
 		batch.draw(canoAbaixo,posicaoCanoHorizontal,alturaDispositivo/2-canoAbaixo.getHeight() - espacoEntreCanos/2 - posicaoCanoVertical);
 		batch.draw(canoAcima,posicaoCanoHorizontal,alturaDispositivo/2 + espacoEntreCanos/2 + posicaoCanoVertical);
+		textoPontuacao.draw(batch, String.valueOf(pontos),larguraDispositivo/2, alturaDispositivo-110);
 
 		batch.end();
 	}
@@ -101,6 +120,11 @@ public class jogo extends ApplicationAdapter {
 		posicaoInicialVerticalPassaro = (alturaDispositivo/2);
 		posicaoCanoHorizontal = larguraDispositivo;
 		espacoEntreCanos = 400;
+
+		//Configurações dos textos
+		textoPontuacao = new BitmapFont();
+		textoPontuacao.setColor(Color.WHITE);
+		textoPontuacao.getData().setScale(10);
 	}
 
 	@Override
