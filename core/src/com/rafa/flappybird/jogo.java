@@ -141,7 +141,14 @@ public class jogo extends ApplicationAdapter {
 			gravidade++;
 
 		}else if (estadoJogo == 2){
-
+			/* Aplica evento de toque na tela*/
+			if (toqueTela){
+				estadoJogo = 0;
+				pontos = 0;
+				gravidade = 0;
+				posicaoInicialVerticalPassaro = alturaDispositivo/2;
+				posicaoCanoHorizontal = larguraDispositivo;
+			}
 		}
 	}
 
